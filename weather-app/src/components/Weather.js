@@ -4,7 +4,7 @@ import { getWeather } from '../helpers/fetchApiHelpers';
 import StyledWeather from './styles/StyledWeather';
 
 const Weather = () => {
-  const [inputLocation, setInputLocation] = useState('Init');
+  const [inputLocation, setInputLocation] = useState('Embu');
   const [currentDate, setCurrentDate] = useState('');
   const [location, setLocation] = useState({
     city: '',

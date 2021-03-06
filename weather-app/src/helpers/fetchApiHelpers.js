@@ -21,12 +21,29 @@ export const getWeather = async (location) => {
     country: geocodeResult.country
   }
 
-  const URL = `${OPENWEATHER_BASE}?city=${location}&appid=${process.env.REACT_APP_OW_API_KEY}`;
-  const weatherResult = await fetch(URL).then(data => data.json()).then(result => result);
-  const currentTemp = weatherResult.main.temp;
-  const weatherMain = weatherResult.weather[0].main;
-  const tempMax = weatherResult.main.temp_max;
-  const tempMin = weatherResult.main.temp_min;
+  let currentTemp;
+  let weatherMain;
+  let tempMax;
+  let tempMin; 
 
+  try {
+    const URL = `${OPENWEATHER_BASE}?city=${location}`;//&appid=${process.env.REACT_APP_OW_API_KEY}`;
+    const weatherResult = await fetch(URL).then(data => data.json()).then(result => result);
+    currentTemp = weatherResult.main.temp;
+    weatherMain = weatherResult.weather[0].main;
+    tempMax = weatherResult.main.temp_max;
+    tempMin = weatherResult.main.temp_min;
+  } catch (error) {
+    if(error.message.includes('temp')){
+      console.log(error.message);
+      currentTemp = 0;
+      tempMax = 0;
+      tempMin = 0;
+      alert('Invalid location, try again!');
+    } else {
+      alert('Error while trying to fetch weather info');
+    }
+  }
+  
   return [{ currentTemp, weatherMain, tempMax, tempMin }, placeName];
 }
